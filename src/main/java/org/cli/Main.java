@@ -17,7 +17,7 @@ public class Main {
         LoadTransactionService service = new LoadTransactionService(new FileAdapter());
         Optional<String> filePath = getFilePath(args);
 
-        List<Transaccion> transactions = service.loadCsv(filePath.orElse("input.csv"));
+        List<Transaccion> transactions = service.loadCsv(filePath.orElse(null));
 
         Transaccion biggest = transactions.stream().max(Transaccion::compareTo).orElse(null);
         Map<String, Long> kindCount = transactions.stream().collect(

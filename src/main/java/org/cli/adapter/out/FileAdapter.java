@@ -23,7 +23,7 @@ public class FileAdapter implements LoadTransaccionPort {
     private InputStream loadFromFileSystem(String filename) {
         try {
             return new FileInputStream(filename);
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             System.err.println("File not found in the filesystem: " + filename);
             System.out.println("Using a internal file input.csv of own resources ");
             System.out.println();
