@@ -1,8 +1,7 @@
-package org.cli;
+package org.cli.application.domain.model;
 
 import com.univocity.parsers.annotations.Parsed;
 import com.univocity.parsers.annotations.Trim;
-import com.univocity.parsers.annotations.UpperCase;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package org.cli;
+package org.cli.application.domain.model;
 
 public interface ComparableTransaccion extends Comparable<Transaccion> {
     @Override
