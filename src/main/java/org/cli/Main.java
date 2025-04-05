@@ -1,29 +1,27 @@
 package org.cli;
 
-import com.univocity.parsers.csv.CsvParserSettings;
-import com.univocity.parsers.csv.CsvRoutines;
 import org.cli.adapter.out.FileAdapter;
 import org.cli.application.domain.model.Transaccion;
-import org.cli.application.domain.service.LoadTransaccionService;
+import org.cli.application.domain.service.LoadTransactionService;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException{
+    public static void main(String[] args) {
 
-        LoadTransaccionService service = new LoadTransaccionService(new FileAdapter());
+        LoadTransactionService service = new LoadTransactionService(new FileAdapter());
+        Optional<String> filePath = getFilePath(args);
 
-        List<Transaccion> transactions = service.loadCsv("input.csv");
+        List<Transaccion> transactions = service.loadCsv(filePath.orElse("input.csv"));
 
         Transaccion biggest = transactions.stream().max(Transaccion::compareTo).orElse(null);
-
-        Map<String, Long> kindCount = transactions.stream()
-                .collect(Collectors.groupingBy(t -> t.tipo, Collectors.counting()));
-
+        Map<String, Long> kindCount = transactions.stream().collect(
+                Collectors.groupingBy(t -> t.tipo, Collectors.counting()));
         BigDecimal balance = getBalance(transactions);
 
         print(balance, kindCount, biggest);
@@ -48,5 +46,9 @@ public class Main {
                         default -> throw new IllegalStateException("Unexpected value: " + t.tipo);
                     })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private static Optional<String> getFilePath(String[] args) {
+        return args.length > 0 ? Optional.of(args[0]) : Optional.empty();
     }
 }
