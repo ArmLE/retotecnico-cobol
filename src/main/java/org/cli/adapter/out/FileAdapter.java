@@ -17,7 +17,7 @@ public class FileAdapter implements LoadTransaccionPort {
 
         CsvRoutines routines = new CsvRoutines(settings);
 
-        InputStream resource = Main.class.getClassLoader().getResourceAsStream(filename);
+        InputStream resource = getClass().getClassLoader().getResourceAsStream(filename);
 
         return routines.parseAll(Transaccion.class, resource);
     }
